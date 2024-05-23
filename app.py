@@ -24,7 +24,9 @@ def translate_text():
     des_language = requested_data['des_lang']
 
  
-    return google_translate(text,src_language,des_language)
+    res_text = google_translate(text,src_language,des_language)
+
+    return "input : "+ src_language + " "+ text +"/n" +"output: " + des_language + res_text
 
 def google_translate(text,src_language,des_language):
     translator = Translator()
