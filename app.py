@@ -36,6 +36,7 @@ def translate_text(input):
     "Tamil" : "ta",
     }
     text = str(input)
+    text = text.replace("%20"," ")
     source_language = language_codes["English"]
     target_language = language_codes["Telugu"]
 
