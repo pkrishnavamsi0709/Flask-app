@@ -1,5 +1,4 @@
-from flask import Flask , render_template
-import google.generativeai as genai
+from flask import Flask , render_template,request
 from googletrans import Translator
 
 app = Flask(__name__)
@@ -15,14 +14,20 @@ def chatbot():
 
 
  
-@app.route('/translator/<input>')
-def translate_text(input):
-    translator = Translator()
-    # Get the API key from the environment variables
-    api_key = "AIzaSyDcF1LrSLzb9l3B7NfS_5LFNyoGnMv6K_g"
-    genai.configure(api_key=api_key)
+@app.route('/translator',methods=['POST'])
+def translate_text():
 
-    model = genai.GenerativeModel('gemini-pro')
+    requested_data = request.get_json()
+
+    text = requested_data['input_text']
+    src_language = requested_data['src_lang']
+    des_language = requested_data['des_lang']
+
+ 
+    return google_translate(text,src_language,des_language)
+
+def google_translate(text,src_language,des_language):
+    translator = Translator()
 
     # Language code mapping
     language_codes = {
@@ -35,15 +40,15 @@ def translate_text(input):
     "Telugu": "te",
     "Tamil" : "ta",
     }
-    text = str(input)
-    text = text.replace("%20"," ")
-    source_language = language_codes["English"]
-    target_language = language_codes["Telugu"]
+
+    source_language = language_codes[src_language]
+    target_language = language_codes[des_language]
 
 
     """Translates text using Google Translate API."""
     translation = translator.translate(text, src=source_language, dest=target_language).text
     return translation
 
+   
 if __name__ =="__main__":
     app.run(debug=True)
