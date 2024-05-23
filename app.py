@@ -26,7 +26,7 @@ def translate_text():
  
     res_text = google_translate(text,src_language,des_language)
 
-    return "input : "+ src_language + " "+ text +"     " +"output: " + des_language + res_text
+    return "input "+ src_language + ":"+ text +"     " +"output " + des_language +":"+ res_text
 
 def google_translate(text,src_language,des_language):
     translator = Translator()
